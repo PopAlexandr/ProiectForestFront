@@ -1,25 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CategoryService } from '../../services/category.service';
+import { Category } from '../../models/models';
 
 @Component({
   selector: 'app-category',
   templateUrl: './category.component.html',
   styleUrls: ['./category.component.css']
 })
-export class CategoryComponent {
-  categories = []; // Initialize categories as an empty array
+export class CategoryComponent implements OnInit {
+  categories: Category[] = []; // Define categories with a proper type
 
-  constructor(categoryService) {
-    this.categoryService = categoryService;
-  }
+  // Use private to automatically create and assign categoryService
+  constructor(private categoryService: CategoryService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.getCategories();
   }
 
-  getCategories() {
-    this.categoryService.getCategories().subscribe(
-      (data) => {
+  getCategories(): void {
+    this.categoryService.getAllCategories().subscribe(
+      (data: Category[]) => {
         this.categories = data;
       },
       (error) => {
@@ -28,9 +28,9 @@ export class CategoryComponent {
     );
   }
 
-  addCategory(category) {
+  addCategory(category: Category): void {
     this.categoryService.createCategory(category).subscribe(
-      (response) => {
+      (response: Category) => {
         this.categories.push(response);
       },
       (error) => {

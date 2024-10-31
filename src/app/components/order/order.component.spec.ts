@@ -1,15 +1,14 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { OrderComponent } from './order.component';
 
 describe('OrderComponent', () => {
-  let component;
-  let fixture;
+  let component: OrderComponent; // Specify the type of component
+  let fixture: ComponentFixture<OrderComponent>; // Specify the type of fixture
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OrderComponent]
-    })
-      .compileComponents();
+      declarations: [OrderComponent] // Use declarations instead of imports
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OrderComponent);
     component = fixture.componentInstance;

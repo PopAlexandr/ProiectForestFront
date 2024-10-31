@@ -1,25 +1,29 @@
 import { Component } from '@angular/core';
 import { ProductService } from '../../services/product.service';
+import {OnInit} from "@angular/core";
+import {Product} from '../../models/models';
 
 @Component({
-  selector: 'app-product',
-  templateUrl: './product.component.html',
-  styleUrls: ['./product.component.css']
+  selector: 'product.component',
+  templateUrl: './productcomponent.html',
+  styleUrls: ['./productcomponent.css']
 })
-export class ProductComponent {
-  products = []; // Initialize products as an empty array
+export class ProductComponent implements OnInit {
+  products:Product[] = []; // Initialize products as an empty array
 
-  // Remove 'private' keyword
-  constructor(productService) {
+
+  constructor(private productService:ProductService) {
     this.productService = productService;
   }
 
   ngOnInit() {
-    this.getProducts();
+    this.productService.getAllProducts().subscribe((data) => {
+      this.products = data;
+    });
   }
 
   getProducts() {
-    this.productService.getProducts().subscribe(
+    this.productService.getAllProducts().subscribe(
       (data) => {
         this.products = data;
       },
@@ -29,7 +33,7 @@ export class ProductComponent {
     );
   }
 
-  addProduct(product) {
+  addProduct(product: Product) {
     this.productService.createProduct(product).subscribe(
       (response) => {
         this.products.push(response);

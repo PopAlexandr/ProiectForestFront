@@ -9,6 +9,7 @@ import { OrderComponent } from './components/order/order.component';
 import { OrderItemComponent } from './components/order-item/order-item.component';
 import { StockTransactionComponent } from './components/stocktransaction/stocktransaction.component';
 
+import { HttpClientModule } from '@angular/common/http';
 // Import services if you have them
 import { ProductService } from './services/product.service';
 import { CustomerService } from './services/customer.service';
@@ -17,8 +18,11 @@ import { SupplierService } from './services/supplier.service';
 import { OrderService } from './services/order.service';
 import { OrderItemService } from './services/orderItem.service';
 import { StockTransactionService } from './services/stockTransaction.service';
+import {AppRoutingModule} from "./app-routing.module";
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
+  bootstrap: [AppComponent],
   declarations: [
     AppComponent,
     ProductComponent,
@@ -30,7 +34,10 @@ import { StockTransactionService } from './services/stockTransaction.service';
     StockTransactionComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    HttpClientModule,
+    AppRoutingModule,
+    FormsModule,
   ],
   providers: [
     ProductService,
@@ -40,7 +47,6 @@ import { StockTransactionService } from './services/stockTransaction.service';
     OrderService,
     OrderItemService,
     StockTransactionService
-  ],
-  bootstrap: [AppComponent]
+  ]
 })
 export class AppModule {}

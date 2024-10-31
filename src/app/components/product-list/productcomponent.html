@@ -1,9 +1,18 @@
-<!-- src/app/components/product-list/productcomponent.html -->
-<div class="product-list">
-  <h2>Product List</h2>
-  <ul>
-    <li *ngFor="let product of products">
-      {{ product.name }} - ${{ product.price }}
-    </li>
-  </ul>
-</div>
+<!-- src/app/components/product-list/product-list.component.html -->
+<h2>Product List</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Stock Quantity</th>
+  </tr>
+  <tr *ngFor="let product of products">
+    <td>{{ product.id }}</td>
+    <td>{{ product.name }}</td>
+    <td>{{ product.description }}</td>
+    <td>{{ product.price }}</td>
+    <td>{{ product.stockQuantity }}</td>
+  </tr>
+</table>
