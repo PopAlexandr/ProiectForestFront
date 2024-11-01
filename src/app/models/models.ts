@@ -2,30 +2,30 @@
 import {CategoryComponent} from '../components/category/category.component';
 import {SupplierService} from '../services/supplier.service';
 export class Product {
-  id: number;
-  name: string;
+  productId: number;
+  title: string;
+  author: string;
   description: string;
   price: number;
   stockQuantity: number;
+  sku: string;
   category: Category;
   supplier: Supplier;
+  orderItems: any[];
+  stockTransaction: any[];
 
-  constructor(
-    id: number,
-    name: string,
-    description: string,
-    price: number,
-    stockQuantity: number,
-    category: Category,
-    supplier: Supplier
-  ) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.price = price;
-    this.stockQuantity = stockQuantity;
-    this.category = category;
-    this.supplier = supplier;
+  constructor() {
+    this.productId = 0;
+    this.title = '';
+    this.author = '';
+    this.description = '';
+    this.price = 0;
+    this.stockQuantity = 0;
+    this.sku = '';
+    this.category = new Category(0, '');
+    this.supplier = new Supplier(0,'');
+    this.orderItems = [];
+    this.stockTransaction = [];
   }
 }
 

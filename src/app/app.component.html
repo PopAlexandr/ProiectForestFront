@@ -1,10 +1,12 @@
-<!-- src/app/app.component.html -->
-
 <div class="container">
   <h1>Product Management</h1>
 
   <h2>Product List</h2>
-  <table class="table">
+  <div>
+    <p>Debug - Number of products: {{products.length}}</p>
+  </div>
+
+  <table class="table table-striped">
     <thead>
     <tr>
       <th>ID</th>
@@ -18,43 +20,49 @@
     </thead>
     <tbody>
     <tr *ngFor="let product of products">
-      <td>{{ product.id }}</td>
-      <td>{{ product.name }}</td>
-      <td>{{ product.description }}</td>
-      <td>{{ product.price | currency }}</td>
-      <td>{{ product.stockQuantity }}</td>
-      <td>{{ product.category }}</td>
-      <td>{{ product.supplier }}</td>
+      <td>{{product.productId}}</td>
+      <td>{{product.title}}</td>
+      <td>{{product.description}}</td>
+      <td>{{product.price}}</td>
+      <td>{{product.stockQuantity}}</td>
+      <td>{{product.category.name}}</td>
+      <td>{{product.supplier?.name}}</td>
     </tr>
     </tbody>
   </table>
 
   <h2>Add New Product</h2>
-  <form #productForm="ngForm" (ngSubmit)="addProduct(productForm.value)">
+  <form #productForm="ngForm" (ngSubmit)="addProduct(productForm)">
     <div class="form-group">
       <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required [(ngModel)]="newProduct.name" class="form-control" />
+      <input type="text" id="name" name="title" required [(ngModel)]="newProduct.title" class="form-control">
     </div>
+
     <div class="form-group">
       <label for="description">Description:</label>
-      <input type="text" id="description" name="description" [(ngModel)]="newProduct.description" class="form-control" />
+      <input type="text" id="description" name="description" [(ngModel)]="newProduct.description" class="form-control">
     </div>
+
     <div class="form-group">
       <label for="price">Price:</label>
-      <input type="number" id="price" name="price" required [(ngModel)]="newProduct.price" class="form-control" />
+      <input type="number" id="price" name="price" required [(ngModel)]="newProduct.price" class="form-control">
     </div>
+
     <div class="form-group">
       <label for="stockQuantity">Stock Quantity:</label>
-      <input type="number" id="stockQuantity" name="stockQuantity" required [(ngModel)]="newProduct.stockQuantity" class="form-control" />
+      <input type="number" id="stockQuantity" name="stockQuantity" required [(ngModel)]="newProduct.stockQuantity" class="form-control">
     </div>
+
     <div class="form-group">
-      <label for="category">Category:</label>
-      <input type="text" id="category" name="category" required [(ngModel)]="newProduct.category" class="form-control" />
+      <label for="categoryName">Category:</label>
+      <input type="text" id="categoryName" name="categoryName" required [(ngModel)]="newProduct.category.name" class="form-control">
     </div>
+
     <div class="form-group">
-      <label for="supplier">Supplier:</label>
-      <input type="text" id="supplier" name="supplier" required [(ngModel)]="newProduct.supplier" class="form-control" />
+      <label for="supplierName">Supplier:</label>
+      <input type="text" id="supplierName" name="supplierName" required [(ngModel)]="newProduct.supplier.name" class="form-control">
     </div>
+
     <button type="submit" class="btn btn-primary">Add Product</button>
   </form>
 </div>

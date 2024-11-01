@@ -1,33 +1,40 @@
-import { ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 import {AppComponent} from './app.component';
-import {HttpClientTestingModule} from '@angular/common/http/testing'; // Import for testing HTTP requests
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  beforeEach(waitForAsync(() => {
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule], // Include necessary modules
-      declarations: [AppComponent] // Component must be declared
+     TestBed.configureTestingModule({
+       imports: [HttpClientTestingModule],
+      declarations: [AppComponent],
     }).compileComponents();
-
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-  });
+  }));
+
 
   it('should create the app', () => {
-    expect(component).toBeTruthy();
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+    expect(app).toBeTruthy();
   });
 
-  // Commenting out this test if title is not defined in AppComponent
-  // it("should have the 'proiectforestfront' title", () => {
-  //   expect(component.title).toEqual('proiectforestfront');
-  // });
+
+   it("should have the 'proiectforestfront' title", () => {
+     const fixture= TestBed.createComponent(AppComponent);
+     const app = fixture.componentInstance;
+     expect(app.title).toEqual('proiectforestfront');
+   });
 
   it('should render the correct content', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, proiectforestfront'); // Adjust selector based on your template
+    expect(compiled.querySelector('.content span')?.textContent).toContain('Hello, proiectforestfront'); // Adjust selector based on your template
   });
 });

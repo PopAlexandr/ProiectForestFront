@@ -2,7 +2,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Product } from '../models/models';
+import {Category, Product, Supplier} from '../models/models';
+import {Environment} from '@angular/cli/lib/config/workspace-schema';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,11 @@ export class ProductService {
 
   // Retrieve all products
   getAllProducts(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.baseUrl);
+
+
+    return this.http.get<Product[]>(`${this.baseUrl}/all`);
+
+
   }
 
   // Retrieve a product by ID
@@ -24,18 +29,18 @@ export class ProductService {
 
   // Add a new product
   createProduct(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.baseUrl, product);
+    return this.http.post<Product>(`${this.baseUrl}/add`, product);
   }
 
   // Update an existing product by ID
   updateProduct(id: number, product: Product): Observable<Product> { // Added types for id and product
-    return this.http.put<Product>(`${this.baseUrl}/${id}`, product);
+    return this.http.put<Product>(`${this.baseUrl}/update`, product);
   }
 
   // Delete a product by ID
   deleteProduct(id: number): Observable<void> { // Added return type for delete
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/delete/${id}`);
   }
 }
 
-// Export an instance of ProductService is not necessary with Angular's dependency injection.
+
