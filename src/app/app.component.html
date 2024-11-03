@@ -11,6 +11,7 @@
     <tr>
       <th>ID</th>
       <th>Name</th>
+      <th>Author</th>
       <th>Description</th>
       <th>Price</th>
       <th>Stock Quantity</th>
@@ -19,23 +20,83 @@
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let product of products">
+    <tr *ngFor="let product of products" (dblclick)="openEditModal(product)">
       <td>{{product.productId}}</td>
       <td>{{product.title}}</td>
+      <td>{{product.author}}</td>
       <td>{{product.description}}</td>
       <td>{{product.price}}</td>
       <td>{{product.stockQuantity}}</td>
-      <td>{{product.category.name}}</td>
+      <td>{{product.category?.name}}</td>
       <td>{{product.supplier?.name}}</td>
     </tr>
     </tbody>
   </table>
+  <div class="modal" tabindex="-1" role="dialog" id="editProductModal" #editProductModal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Edit Product</h5>
+          <button type="button" class="close" (click)="closeEditModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #editProductForm="ngForm" (ngSubmit)="OnUpdateProduct()">
+            <div class="form-group">
+              <label for="editTitle">Name:</label>
+              <input type="text" id="editTitle" name="title" required [(ngModel)]="selectedProduct.title" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="editAuthor">Author:</label>
+              <input type="text" id="editAuthor" name="author" [(ngModel)]="selectedProduct.author" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="editDescription">Description:</label>
+              <input type="text" id="editDescription" name="description" [(ngModel)]="selectedProduct.description" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="editPrice">Price:</label>
+              <input type="number" id="editPrice" name="price" required [(ngModel)]="selectedProduct.price" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="editStockQuantity">Stock Quantity:</label>
+              <input type="number" id="editStockQuantity" name="stockQuantity" required [(ngModel)]="selectedProduct.stockQuantity" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="editCategoryName">Category:</label>
+              <input type="text" id="editCategoryName" name="categoryName" required [(ngModel)]="selectedProduct.category.name" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <label for="editSupplierName">Supplier:</label>
+              <input type="text" id="editSupplierName" name="supplierName" required [(ngModel)]="selectedProduct.supplier.name" class="form-control">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="OnUpdateProduct()">Save changes</button>
+          <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <h2>Add New Product</h2>
   <form #productForm="ngForm" (ngSubmit)="addProduct(productForm)">
     <div class="form-group">
       <label for="name">Name:</label>
       <input type="text" id="name" name="title" required [(ngModel)]="newProduct.title" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label for="author">Author:</label>
+      <input type="text" id="author" name="author" [(ngModel)]="newProduct.author" class="form-control">
     </div>
 
     <div class="form-group">

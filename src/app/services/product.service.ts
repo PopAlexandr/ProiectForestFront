@@ -34,7 +34,7 @@ export class ProductService {
 
   // Update an existing product by ID
   updateProduct(id: number, product: Product): Observable<Product> { // Added types for id and product
-    return this.http.put<Product>(`${this.baseUrl}/update`, product);
+    return this.http.put<Product>(`${this.baseUrl}/update/${id}`, product);
   }
 
   // Delete a product by ID
