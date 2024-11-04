@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import {Component, NgIterable, OnInit} from '@angular/core';
 import {Product} from "./models/models";
 import {Category} from "./models/models";
 import {Customer} from "./models/models";
@@ -32,6 +32,7 @@ export class AppComponent implements OnInit {
     author: ''
   };
   public products: Product[] = []; // Specify type for products
+  public filteredProducts: Product[] = []; // Array for filtered products
   public categories: Category[] = []; // Initialize categories as an empty array
   public orders: Order[]=[];
   public orderItems: OrderItem[] = [];
@@ -39,15 +40,20 @@ export class AppComponent implements OnInit {
   public suppliers: Supplier[]=[];
   public selectedProduct: Product=new Product();
   public deleteProduct: Product = new Product();
+  public selectedCategoryId: number| null = null;
 
   public newProduct: Product = new Product();
   public title: string='proiectforestfront';
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private categoryService: CategoryService
+  ) {}
 
   ngOnInit(): void {
-    this.fetchProducts();
     this.fetchCategories();
+    this.fetchProducts();
+
     this.fetchOrders();
     this.fetchOrderItems();
     this.fetchStockTransactions();
@@ -60,8 +66,9 @@ export class AppComponent implements OnInit {
       (data: Product[]) => {
         console.log("Raw data received:", data);
         console.log("Number of products:", data.length);
-        this.products = data.sort((a, b) => a.productId - b.productId); // Create a new array reference
-        console.log("Products array after assignment:", this.products);
+        this.products = data.sort((a, b) => a.productId - b.productId);
+        this.filteredProducts=[...this.products]
+        console.log('Products with Category IDs:', this.products);
       },
       (error: HttpErrorResponse) => {
         console.error("Error fetching products:", error);
@@ -144,19 +151,21 @@ export class AppComponent implements OnInit {
     button.click();
   }
 
-  // If needed, add a fetchCategories method here
-  // private fetchCategories(): void {
-  //   this.categoryService.getAllCategories().subscribe(
-  //     (data: Category[]) => {
-  //       this.categories = data;
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       console.error("Error fetching categories:", error);
-  //     }
-  //   );
-  // }
-  private fetchCategories() {
 
+
+
+  fetchCategories(): void {
+
+    this.categoryService.getAllCategories().subscribe(
+      (data: Category[]) => {
+
+        this.categories = data;
+        console.log("Cateogies received:",this.categories);
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
   }
 
   private fetchOrders() {
@@ -189,4 +198,29 @@ export class AppComponent implements OnInit {
   }
 
 
+  confirmDeleteProduct(productId: number) {
+    this.productService.deleteProduct(productId).subscribe(
+      () => {
+        // Remove the product from the local array without refetching
+        this.products = this.products.filter(product => product.productId !== productId);
+      },
+      (error) => {
+        console.error('Error deleting product:', error);
+      }
+    );
+  }
+
+  filterByCategory(): void {
+    console.log("ce Id vine din html:",this.selectedCategoryId);
+    const categoryId = this.selectedCategoryId ? +this.selectedCategoryId : null; // Convert to number
+    if (categoryId!==null) {
+      this.filteredProducts = this.products.filter(
+        product => product.category?.categoryId === categoryId
+      );
+    } else {
+      this.filteredProducts = [...this.products]; // Show all products if no category selected
+    }
+    console.log('Selected Category ID:', categoryId); // Debug log
+    console.log('Filtered Products:', this.filteredProducts); // Debug log
+  }
 }

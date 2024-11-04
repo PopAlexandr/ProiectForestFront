@@ -1,9 +1,17 @@
 <div class="container">
   <h1>Product Management</h1>
-
+  <!-- Category Filter Dropdown -->
+  <div class="form-group">
+    <label for="categoryFilter">Filter by Category:</label>
+    <select id="categoryFilter" class="form-control" [(ngModel)]="selectedCategoryId" (change)="filterByCategory()">
+      <option [value]="null">All Categories</option>
+      <option *ngFor="let category of categories" [value]="category.categoryId">{{ category.name }}</option>
+    </select>
+  </div>
   <h2>Product List</h2>
   <div>
     <p>Debug - Number of products: {{products.length}}</p>
+    <p>Selected Category ID (for Debug): {{ selectedCategoryId }}</p>
   </div>
 
   <table class="table table-striped">
@@ -17,10 +25,11 @@
       <th>Stock Quantity</th>
       <th>Category</th>
       <th>Supplier</th>
+      <th>Actions</th> <!-- New column for actions -->
     </tr>
     </thead>
     <tbody>
-    <tr *ngFor="let product of products" (dblclick)="openEditModal(product)">
+    <tr *ngFor="let product of filteredProducts" (dblclick)="openEditModal(product)">
       <td>{{product.productId}}</td>
       <td>{{product.title}}</td>
       <td>{{product.author}}</td>
@@ -29,6 +38,9 @@
       <td>{{product.stockQuantity}}</td>
       <td>{{product.category?.name}}</td>
       <td>{{product.supplier?.name}}</td>
+      <td>
+        <button class="btn btn-danger btn-sm" (click)="confirmDeleteProduct(product.productId)">Delete</button>
+      </td>
     </tr>
     </tbody>
   </table>
