@@ -14,7 +14,7 @@ export class StockTransactionService {
 
   // Retrieve all stock transactions
   getAllStockTransactions(): Observable<StockTransaction[]> {
-    return this.http.get<StockTransaction[]>(this.baseUrl);
+    return this.http.get<StockTransaction[]>(`${this.baseUrl}/all`);
   }
 
   // Retrieve a stock transaction by ID

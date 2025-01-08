@@ -1,17 +1,11 @@
 import {Component, NgIterable, OnInit} from '@angular/core';
 import {Product} from "./models/models";
 import {Category} from "./models/models";
-import {Customer} from "./models/models";
-import {Order} from "./models/models";
-import {OrderItem} from "./models/models";
 import {StockTransaction} from "./models/models";
 import {Supplier} from "./models/models";
 
 import {ProductService} from "./services/product.service";
 import {CategoryService} from "./services/category.service";
-import {CustomerService} from "./services/customer.service";
-import {OrderService} from "./services/order.service";
-import {OrderItemService} from "./services/orderItem.service";
 import {StockTransactionService} from "./services/stockTransaction.service";
 import {SupplierService} from "./services/supplier.service";
 import {HttpErrorResponse} from '@angular/common/http';
@@ -34,8 +28,6 @@ export class AppComponent implements OnInit {
   public products: Product[] = []; // Specify type for products
   public filteredProducts: Product[] = []; // Array for filtered products
   public categories: Category[] = []; // Initialize categories as an empty array
-  public orders: Order[]=[];
-  public orderItems: OrderItem[] = [];
   public stockTransactions: StockTransaction[] = [];
   public suppliers: Supplier[]=[];
   public selectedProduct: Product=new Product();
@@ -47,16 +39,18 @@ export class AppComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private StockTransactionService: StockTransactionService,
   ) {}
 
   ngOnInit(): void {
     this.fetchCategories();
+    this.fetchStockTransactions();
     this.fetchProducts();
 
     this.fetchOrders();
     this.fetchOrderItems();
-    this.fetchStockTransactions();
+
     this.fetchSuppliers();
 
   }
@@ -99,22 +93,31 @@ export class AppComponent implements OnInit {
     );
   }
   public OnUpdateProduct(): void {
+    console.log('Updating product:', this.selectedProduct);
+
+    // Ensure selectedProduct is valid
     if (this.selectedProduct) {
       this.productService.updateProduct(this.selectedProduct.productId, this.selectedProduct).subscribe(
         (response: Product) => {
-          // Update the product in the list with the response data
+          console.log('Product updated successfully:', response);
+
+          // Update the product in the list
           const index = this.products.findIndex(p => p.productId === response.productId);
           if (index > -1) {
             this.products[index] = response;
           }
+
           this.closeEditModal(); // Close modal after update
         },
         (error) => {
           console.error('Error updating product:', error);
         }
       );
+    } else {
+      console.error('No product selected for update.');
     }
   }
+
   public OnDeleteProduct(productId:number): void {
     this.productService.deleteProduct(productId).subscribe(
       (response:void) => {
@@ -176,9 +179,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  private fetchStockTransactions() {
 
-  }
 
   private fetchSuppliers() {
 
@@ -195,6 +196,22 @@ export class AppComponent implements OnInit {
     const modal=document.getElementById('editProductModal');
     if(modal){modal.style.display='none';}
 
+  }
+  openInventoryModal(): void {
+    this.StockTransactionService.getAllStockTransactions().subscribe(
+      (data: StockTransaction[]) => {
+        this.stockTransactions = data;
+        const modal = document.getElementById('inventoryModal') as HTMLElement;
+        modal.style.display = 'block';
+      },
+      (error) => {
+        console.error('Error fetching stock transactions:', error);
+      }
+    );
+  }
+  closeInventoryModal(): void {
+    const modal = document.getElementById('inventoryModal') as HTMLElement;
+    modal.style.display = 'none';
   }
 
 
@@ -213,6 +230,7 @@ export class AppComponent implements OnInit {
   filterByCategory(): void {
     console.log("ce Id vine din html:",this.selectedCategoryId);
     const categoryId = this.selectedCategoryId ? +this.selectedCategoryId : null; // Convert to number
+
     if (categoryId!==null) {
       this.filteredProducts = this.products.filter(
         product => product.category?.categoryId === categoryId
@@ -222,5 +240,20 @@ export class AppComponent implements OnInit {
     }
     console.log('Selected Category ID:', categoryId); // Debug log
     console.log('Filtered Products:', this.filteredProducts); // Debug log
+  }
+  private fetchStockTransactions() {
+    this.StockTransactionService.getAllStockTransactions().subscribe(
+      (data: StockTransaction[]) => {
+
+        this.stockTransactions = data.map(transaction => ({
+          ...transaction,
+          product: transaction.product || { title: 'No product linked' },
+        }));
+        console.log("Transactions received:",this.stockTransactions);
+      },
+      (error) => {
+        console.error('Error fetching transactions:', error);
+      }
+    );
   }
 }

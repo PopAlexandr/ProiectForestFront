@@ -49,48 +49,37 @@ export class Supplier {
   }
 }
 
-export class Order {
-  id: number;
-  total: number;
-  customer: string; // Adjust this type based on your actual customer structure
 
-  constructor(id: number, total: number, customer: string) {
-    this.id = id;
-    this.total = total;
-    this.customer = customer;
-  }
-}
 
-export class OrderItem {
-  id: number;
-  quantity: number;
-  product: string; // Adjust this type based on your actual product structure
 
-  constructor(id: number, quantity: number, product: string) {
+
+export class StockTransaction {
+  id: number; // Unique identifier
+  quantity: number; // Positive for additions, negative for removals
+  type: string; // Transaction type: ADD, REMOVE, DELETE, etc.
+  date: string; // Date of the transaction
+  description?: string; // Optional description
+  product: {
+    id: number; // Product ID
+    title: string; // Product title
+  }; // Simplified product representation
+
+  constructor(
+    id: number,
+    quantity: number,
+    type: string,
+    date: string,
+    description: string | undefined,
+    product: { id: number; title: string }
+  ) {
     this.id = id;
     this.quantity = quantity;
+    this.type = type;
+    this.date = date;
+    this.description = description;
     this.product = product;
   }
 }
 
-export class StockTransaction {
-  id: number;
-  quantity: number;
-  type: string; // You might want to define this as an enum if it has specific values
 
-  constructor(id: number, quantity: number, type: string) {
-    this.id = id;
-    this.quantity = quantity;
-    this.type = type;
-  }
-}
 
-export class Customer {
-  id: number;
-  name: string;
-
-  constructor(id: number, name: string) {
-    this.id = id;
-    this.name = name;
-  }
-}
