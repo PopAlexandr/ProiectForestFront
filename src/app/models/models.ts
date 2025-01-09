@@ -54,29 +54,23 @@ export class Supplier {
 
 
 export class StockTransaction {
-  id: number; // Unique identifier
+  transactionId: number; // Unique identifier
   quantity: number; // Positive for additions, negative for removals
-  type: string; // Transaction type: ADD, REMOVE, DELETE, etc.
-  date: string; // Date of the transaction
-  description?: string; // Optional description
-  product: {
-    id: number; // Product ID
-    title: string; // Product title
-  }; // Simplified product representation
+  transactionType: string; // Transaction type: ADD, REMOVE, DELETE, etc.
+  transactionDate: string; // Date of the transaction
+  product: Product;
 
   constructor(
-    id: number,
+    transactionId: number,
     quantity: number,
-    type: string,
-    date: string,
-    description: string | undefined,
-    product: { id: number; title: string }
+    transactionType: string,
+    transactionDate: string,
+    product: Product
   ) {
-    this.id = id;
+    this.transactionId = transactionId;
     this.quantity = quantity;
-    this.type = type;
-    this.date = date;
-    this.description = description;
+    this.transactionType = transactionType;
+    this.transactionDate = transactionDate;
     this.product = product;
   }
 }

@@ -244,16 +244,13 @@ export class AppComponent implements OnInit {
   private fetchStockTransactions() {
     this.StockTransactionService.getAllStockTransactions().subscribe(
       (data: StockTransaction[]) => {
-
-        this.stockTransactions = data.map(transaction => ({
-          ...transaction,
-          product: transaction.product || { title: 'No product linked' },
-        }));
-        console.log("Transactions received:",this.stockTransactions);
+        this.stockTransactions = data;
+        console.log('Transactions received:', this.stockTransactions);
       },
       (error) => {
         console.error('Error fetching transactions:', error);
       }
     );
   }
+
 }
