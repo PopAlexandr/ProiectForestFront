@@ -11,8 +11,7 @@ export class Product {
   sku: string;
   category: Category;
   supplier: Supplier;
-  orderItems: any[];
-  stockTransaction: any[];
+  stockTransaction: StockTransaction[];
 
   constructor() {
     this.productId = 0;
@@ -24,7 +23,6 @@ export class Product {
     this.sku = '';
     this.category = new Category(0, '');
     this.supplier = new Supplier(0,'');
-    this.orderItems = [];
     this.stockTransaction = [];
   }
 }
@@ -58,20 +56,20 @@ export class StockTransaction {
   quantity: number; // Positive for additions, negative for removals
   transactionType: string; // Transaction type: ADD, REMOVE, DELETE, etc.
   transactionDate: string; // Date of the transaction
-  product: Product;
+  productTitle?: string;
 
   constructor(
     transactionId: number,
     quantity: number,
     transactionType: string,
     transactionDate: string,
-    product: Product
+    productTitle: string
   ) {
     this.transactionId = transactionId;
     this.quantity = quantity;
     this.transactionType = transactionType;
     this.transactionDate = transactionDate;
-    this.product = product;
+    this.productTitle = productTitle;
   }
 }
 

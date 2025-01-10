@@ -45,11 +45,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchCategories();
+    this.fetchProducts()
     this.fetchStockTransactions();
-    this.fetchProducts();
 
-    this.fetchOrders();
-    this.fetchOrderItems();
 
     this.fetchSuppliers();
 
@@ -170,17 +168,6 @@ export class AppComponent implements OnInit {
       }
     );
   }
-
-  private fetchOrders() {
-
-  }
-
-  private fetchOrderItems() {
-
-  }
-
-
-
   private fetchSuppliers() {
 
   }
@@ -241,16 +228,32 @@ export class AppComponent implements OnInit {
     console.log('Selected Category ID:', categoryId); // Debug log
     console.log('Filtered Products:', this.filteredProducts); // Debug log
   }
-  private fetchStockTransactions() {
-    this.StockTransactionService.getAllStockTransactions().subscribe(
-      (data: StockTransaction[]) => {
-        this.stockTransactions = data;
-        console.log('Transactions received:', this.stockTransactions);
+  private fetchStockTransactions(): void {
+    this.productService.getAllProducts().subscribe(
+      (products: Product[]) => {
+        this.products = products;
+        console.log('Fetched Products:', this.products);
+
+        // Extract transactions and link product titles
+        const allTransactions: StockTransaction[] = [];
+        this.products.forEach(product => {
+          product.stockTransaction.forEach(transaction => {
+            allTransactions.push({
+              ...transaction,
+              productTitle: product.title // Link product title
+            });
+          });
+        });
+
+        this.stockTransactions = allTransactions;
+        console.log('Processed Transactions with Titles:', this.stockTransactions);
       },
       (error) => {
-        console.error('Error fetching transactions:', error);
+        console.error('Error fetching products for transactions:', error);
       }
     );
   }
+
+
 
 }

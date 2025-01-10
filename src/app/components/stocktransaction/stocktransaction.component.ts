@@ -10,11 +10,10 @@ import { StockTransaction } from '../../models/models'; // Import your StockTran
 export class StockTransactionComponent implements OnInit {
   stockTransactions: StockTransaction[] = []; // Initialize stockTransactions as an empty array with type
 
-  constructor(private stockTransactionService: StockTransactionService) { // Use private for dependency injection
-  }
+  constructor(private stockTransactionService: StockTransactionService) { this.stockTransactionService=stockTransactionService;}
 
   ngOnInit(): void {
-    this.getStockTransactions();
+    this.stockTransactionService.getAllStockTransactions().subscribe((data: any) => {this.stockTransactions = data; });
   }
 
   getStockTransactions(): void {

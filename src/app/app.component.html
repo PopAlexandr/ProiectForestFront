@@ -41,13 +41,14 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let transaction of stockTransactions">
+            <tr *ngFor="let transaction of this.stockTransactions">
               <td>{{ transaction.transactionId }}</td>
-              <td>{{ transaction.product?.title }}</td>
+              <td>{{ transaction.productTitle }}</td>
               <td>{{ transaction.quantity }}</td>
               <td>{{ transaction.transactionType }}</td>
               <td>{{ transaction.transactionDate }}</td>
             </tr>
+
             </tbody>
           </table>
         </div>
