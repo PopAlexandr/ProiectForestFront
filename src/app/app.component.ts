@@ -31,8 +31,13 @@ export class AppComponent implements OnInit {
   public stockTransactions: StockTransaction[] = [];
   public suppliers: Supplier[]=[];
   public selectedProduct: Product=new Product();
+  public lowStockProducts: Product[] = [];
+  private stockThreshold: number = 10; // Default threshold for low stock
   public deleteProduct: Product = new Product();
   public selectedCategoryId: number| null = null;
+  public topSellingProducts: { totalSales: number; title: string }[] = [];
+  private topLimit: number = 2; // Default limit for top-selling products
+
 
   public newProduct: Product = new Product();
   public title: string='proiectforestfront';
@@ -242,6 +247,57 @@ export class AppComponent implements OnInit {
         console.error('Error fetching stock transactions:', error);
       }
     );
+  }
+  openLowStockModal(): void {
+    this.productService.getLowStockProducts(this.stockThreshold).subscribe(
+      (products: Product[]) => {
+        this.lowStockProducts = products;
+        console.log('Low Stock Products:', this.lowStockProducts);
+        const modal = document.getElementById('lowStockModal') as HTMLElement;
+        modal.style.display = 'block';
+      },
+      (error) => {
+        console.error('Error fetching low stock products:', error);
+      }
+    );
+  }
+
+  closeLowStockModal(): void {
+    const modal = document.getElementById('lowStockModal') as HTMLElement;
+    modal.style.display = 'none';
+  }
+
+  openTopSellingModal(): void {
+    const allowedTypes = ['REMOVE', 'DELETE'];
+
+    // Aggregate total sales for each product title
+    const salesMap: { [title: string]: number } = {};
+
+    this.stockTransactions
+      .filter(transaction => allowedTypes.includes(transaction.transactionType))
+      .forEach(transaction => {
+        const productTitle = transaction.productTitle || 'Unknown Product';
+        // Convert negative quantities to positive for sales calculation
+        const salesQuantity = Math.abs(transaction.quantity);
+        salesMap[productTitle] = (salesMap[productTitle] || 0) + salesQuantity;
+      });
+
+    // Convert the sales map to an array and sort by total sales
+    this.topSellingProducts = Object.entries(salesMap)
+      .map(([title, totalSales]) => ({ title, totalSales }))
+      .sort((a, b) => b.totalSales - a.totalSales)
+      .slice(0, this.topLimit);
+
+    console.log('Sales Map:', salesMap);
+    console.log('Top-Selling Products:', this.topSellingProducts);
+
+    const modal = document.getElementById('topSellingModal') as HTMLElement;
+    modal.style.display = 'block';
+  }
+
+  closeTopSellingModal(): void {
+    const modal = document.getElementById('topSellingModal') as HTMLElement;
+    modal.style.display = 'none';
   }
 
 

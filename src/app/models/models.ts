@@ -12,6 +12,7 @@ export class Product {
   category: Category;
   supplier: Supplier;
   stockTransaction: StockTransaction[];
+  totalSales?: number;
 
   constructor() {
     this.productId = 0;
@@ -24,6 +25,7 @@ export class Product {
     this.category = new Category(0, '');
     this.supplier = new Supplier(0,'');
     this.stockTransaction = [];
+    this.totalSales=0;
   }
 }
 

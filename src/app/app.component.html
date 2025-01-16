@@ -14,6 +14,43 @@
     <p>Selected Category ID (for Debug): {{ selectedCategoryId }}</p>
   </div>
 
+  <!-- Top-Selling Products Report Button -->
+  <button class="btn btn-success" (click)="openTopSellingModal()">View Top-Selling Products</button>
+
+  <!-- Top-Selling Products Modal -->
+  <div class="modal" tabindex="-1" role="dialog" id="topSellingModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Top-Selling Products</h5>
+          <button type="button" class="close" (click)="closeTopSellingModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Product</th>
+              <th>Total Sales</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of topSellingProducts">
+              <td>{{ product.title }}</td>
+              <td>{{ product.totalSales }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeTopSellingModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
 
   <!-- Inventory Movement Button -->
@@ -183,4 +220,46 @@
 
     <button type="submit" class="btn btn-primary">Add Product</button>
   </form>
+  <!-- Low Stock Report Button -->
+  <button class="btn btn-warning" (click)="openLowStockModal()">View Low Stock Report</button>
+
+  <!-- Low Stock Report Modal -->
+  <div class="modal" tabindex="-1" role="dialog" id="lowStockModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Low Stock Report</h5>
+          <button type="button" class="close" (click)="closeLowStockModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Author</th>
+              <th>Stock Quantity</th>
+              <th>Category</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let product of lowStockProducts">
+              <td>{{ product.productId }}</td>
+              <td>{{ product.title }}</td>
+              <td>{{ product.author }}</td>
+              <td>{{ product.stockQuantity }}</td>
+              <td>{{ product.category?.name }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeLowStockModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

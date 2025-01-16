@@ -32,6 +32,15 @@ export class ProductService {
     return this.http.post<Product>(`${this.baseUrl}/add`, product);
   }
 
+  getLowStockProducts(threshold: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/low-stock?threshold=${threshold}`);
+  }
+  getTopSellingProducts(limit: number): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.baseUrl}/top-selling?limit=${limit}`);
+  }
+
+
+
   // Update an existing product by ID
   updateProduct(id: number, product: Product): Observable<Product> { // Added types for id and product
     return this.http.put<Product>(`${this.baseUrl}/update/${id}`, product);
