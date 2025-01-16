@@ -185,17 +185,14 @@ export class AppComponent implements OnInit {
 
   }
   openInventoryModal(): void {
-    this.StockTransactionService.getAllStockTransactions().subscribe(
-      (data: StockTransaction[]) => {
-        this.stockTransactions = data;
-        const modal = document.getElementById('inventoryModal') as HTMLElement;
-        modal.style.display = 'block';
-      },
-      (error) => {
-        console.error('Error fetching stock transactions:', error);
-      }
-    );
+    if (this.stockTransactions.length === 0) {
+      // If transactions are empty, fetch them using the `fetchStockTransactions` logic
+      this.fetchStockTransactions();
+    }
+    const modal = document.getElementById('inventoryModal') as HTMLElement;
+    modal.style.display = 'block';
   }
+
   closeInventoryModal(): void {
     const modal = document.getElementById('inventoryModal') as HTMLElement;
     modal.style.display = 'none';
@@ -229,30 +226,21 @@ export class AppComponent implements OnInit {
     console.log('Filtered Products:', this.filteredProducts); // Debug log
   }
   private fetchStockTransactions(): void {
-    this.productService.getAllProducts().subscribe(
-      (products: Product[]) => {
-        this.products = products;
-        console.log('Fetched Products:', this.products);
+    this.StockTransactionService.getAllStockTransactions().subscribe(
+      (transactions: StockTransaction[]) => {
+        console.log('Fetched Transactions from Backend:', transactions);
 
-        // Extract transactions and link product titles
-        const allTransactions: StockTransaction[] = [];
-        this.products.forEach(product => {
-          product.stockTransaction.forEach(transaction => {
-            allTransactions.push({
-              ...transaction,
-              productTitle: product.title // Link product title
-            });
-          });
-        });
+        // Process transactions to include the product title if available
+        this.stockTransactions = transactions;
 
-        this.stockTransactions = allTransactions;
         console.log('Processed Transactions with Titles:', this.stockTransactions);
       },
-      (error) => {
-        console.error('Error fetching products for transactions:', error);
+      (error: HttpErrorResponse) => {
+        console.error('Error fetching stock transactions:', error);
       }
     );
   }
+
 
 
 
