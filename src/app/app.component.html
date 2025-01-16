@@ -4,8 +4,8 @@
   <div class="form-group">
     <label for="categoryFilter">Filter by Category:</label>
     <select id="categoryFilter" class="form-control" [(ngModel)]="selectedCategoryId" (change)="filterByCategory()">
-      <option [value]="null">All Categories</option>
-      <option *ngFor="let category of categories" [value]="category.categoryId">{{ category.name }}</option>
+      <option [ngValue]="null">All Categories</option>
+      <option *ngFor="let category of categories" [ngValue]="category.categoryId">{{ category.name }}</option>
     </select>
   </div>
   <h2>Product List</h2>

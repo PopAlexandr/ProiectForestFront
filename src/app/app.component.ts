@@ -212,19 +212,22 @@ export class AppComponent implements OnInit {
   }
 
   filterByCategory(): void {
-    console.log("ce Id vine din html:",this.selectedCategoryId);
-    const categoryId = this.selectedCategoryId ? +this.selectedCategoryId : null; // Convert to number
+    console.log("Selected Category ID (from HTML):", this.selectedCategoryId);
 
-    if (categoryId!==null) {
+    // Check if selectedCategoryId is null or undefined
+    if (this.selectedCategoryId === null) {
+      this.filteredProducts = [...this.products]; // Reset to all products
+    } else {
+      const categoryId = +this.selectedCategoryId; // Ensure it's a number
       this.filteredProducts = this.products.filter(
         product => product.category?.categoryId === categoryId
       );
-    } else {
-      this.filteredProducts = [...this.products]; // Show all products if no category selected
     }
-    console.log('Selected Category ID:', categoryId); // Debug log
-    console.log('Filtered Products:', this.filteredProducts); // Debug log
+
+    console.log('Selected Category ID (Processed):', this.selectedCategoryId);
+    console.log('Filtered Products:', this.filteredProducts);
   }
+
   private fetchStockTransactions(): void {
     this.StockTransactionService.getAllStockTransactions().subscribe(
       (transactions: StockTransaction[]) => {
