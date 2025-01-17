@@ -50,6 +50,42 @@
     </div>
   </div>
 
+  <!-- Transaction Summary Button -->
+  <button class="btn btn-secondary" (click)="openTransactionSummaryModal()">View Transaction Summary</button>
+
+  <!-- Transaction Summary Modal -->
+  <div class="modal" tabindex="-1" role="dialog" id="transactionSummaryModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Transaction Summary Report</h5>
+          <button type="button" class="close" (click)="closeTransactionSummaryModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Transaction Type</th>
+              <th>Total Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let type of transactionSummary || {} | keyvalue">
+              <td>{{ type.key }}</td>
+              <td>{{ type.value }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeTransactionSummaryModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
 
 

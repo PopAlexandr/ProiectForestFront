@@ -21,6 +21,9 @@ export class StockTransactionService {
   getStockTransactionById(id: number): Observable<StockTransaction> { // Added type for id
     return this.http.get<StockTransaction>(`${this.baseUrl}/${id}`);
   }
+  getTransactionSummary(): Observable<{ [key: string]: number }> {
+    return this.http.get<{ [key: string]: number }>(`${this.baseUrl}/summary`);
+  }
 
   // Create a new stock transaction
   createStockTransaction(stockTransaction: StockTransaction): Observable<StockTransaction> {

@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
   public selectedCategoryId: number| null = null;
   public topSellingProducts: { totalSales: number; title: string }[] = [];
   private topLimit: number = 2; // Default limit for top-selling products
-
+  public transactionSummary: { [key: string]: number } | null = null;
 
   public newProduct: Product = new Product();
   public title: string='proiectforestfront';
@@ -300,6 +300,23 @@ export class AppComponent implements OnInit {
     modal.style.display = 'none';
   }
 
+  openTransactionSummaryModal(): void {
+    this.StockTransactionService.getTransactionSummary().subscribe(
+      (summary) => {
+        this.transactionSummary = summary;
+        const modal = document.getElementById('transactionSummaryModal') as HTMLElement;
+        modal.style.display = 'block';
+      },
+      (error) => {
+        console.error('Error fetching transaction summary:', error);
+      }
+    );
+  }
+
+  closeTransactionSummaryModal(): void {
+    const modal = document.getElementById('transactionSummaryModal') as HTMLElement;
+    modal.style.display = 'none';
+  }
 
 
 
