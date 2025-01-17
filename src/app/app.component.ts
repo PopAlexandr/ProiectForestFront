@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
   public topSellingProducts: { totalSales: number; title: string }[] = [];
   private topLimit: number = 2; // Default limit for top-selling products
   public transactionSummary: { [key: string]: number } | null = null;
-
+  public searchQuery: string = '';
   public newProduct: Product = new Product();
   public title: string='proiectforestfront';
 
@@ -219,18 +219,7 @@ export class AppComponent implements OnInit {
   filterByCategory(): void {
     console.log("Selected Category ID (from HTML):", this.selectedCategoryId);
 
-    // Check if selectedCategoryId is null or undefined
-    if (this.selectedCategoryId === null) {
-      this.filteredProducts = [...this.products]; // Reset to all products
-    } else {
-      const categoryId = +this.selectedCategoryId; // Ensure it's a number
-      this.filteredProducts = this.products.filter(
-        product => product.category?.categoryId === categoryId
-      );
-    }
-
-    console.log('Selected Category ID (Processed):', this.selectedCategoryId);
-    console.log('Filtered Products:', this.filteredProducts);
+    this.applyFilters()
   }
 
   private fetchStockTransactions(): void {
@@ -319,5 +308,30 @@ export class AppComponent implements OnInit {
   }
 
 
+  filterByTitle() {
+    console.log('Search Filter Applied:', this.searchQuery); // Debug log
+    this.applyFilters();
+  }
+  applyFilters(): void {
+    let filtered = [...this.products]; // Start with all products
+
+    // Apply category filter
+    if (this.selectedCategoryId !== null) {
+      filtered = filtered.filter(
+        product => product.category?.categoryId === this.selectedCategoryId
+      );
+    }
+
+    // Apply search filter
+    if (this.searchQuery.trim() !== '') {
+      const query = this.searchQuery.toLowerCase();
+      filtered = filtered.filter(product =>
+        product.title.toLowerCase().includes(query)
+      );
+    }
+
+    this.filteredProducts = filtered; // Update the filtered list
+    console.log('Filtered Products:', this.filteredProducts); // Debug log
+  }
 
 }
