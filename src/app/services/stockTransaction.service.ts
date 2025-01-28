@@ -12,12 +12,12 @@ export class StockTransactionService {
 
   constructor(private http: HttpClient) {}
 
-  // Retrieve all stock transactions
+
   getAllStockTransactions(): Observable<StockTransaction[]> {
     return this.http.get<StockTransaction[]>(`${this.baseUrl}/all`);
   }
 
-  // Retrieve a stock transaction by ID
+
   getStockTransactionById(id: number): Observable<StockTransaction> { // Added type for id
     return this.http.get<StockTransaction>(`${this.baseUrl}/${id}`);
   }
@@ -25,20 +25,20 @@ export class StockTransactionService {
     return this.http.get<{ [key: string]: number }>(`${this.baseUrl}/summary`);
   }
 
-  // Create a new stock transaction
+
   createStockTransaction(stockTransaction: StockTransaction): Observable<StockTransaction> {
     return this.http.post<StockTransaction>(this.baseUrl, stockTransaction);
   }
 
-  // Update an existing stock transaction by ID
+
   updateStockTransaction(id: number, stockTransaction: StockTransaction): Observable<StockTransaction> { // Added types for id and stockTransaction
     return this.http.put<StockTransaction>(`${this.baseUrl}/${id}`, stockTransaction);
   }
 
-  // Delete a stock transaction by ID
+
   deleteStockTransaction(id: number): Observable<void> { // Added return type for delete
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }
 
-// Export instance is not necessary with Angular's dependency injection.
+

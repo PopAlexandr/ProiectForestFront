@@ -16,7 +16,7 @@ export class CategoryService {
     return this.http.get<Category[]>(this.baseUrl);
   }
 
-  getCategoryById(id: number): Observable<Category> { // Added type for id and return type
+  getCategoryById(id: number): Observable<Category> {
     return this.http.get<Category>(`${this.baseUrl}/${id}`);
   }
 
@@ -24,11 +24,11 @@ export class CategoryService {
     return this.http.post<Category>(this.baseUrl, category);
   }
 
-  updateCategory(id: number, category: Category): Observable<Category> { // Added types for id and category
+  updateCategory(id: number, category: Category): Observable<Category> {
     return this.http.put<Category>(`${this.baseUrl}/${id}`, category);
   }
 
-  deleteCategory(id: number): Observable<void> { // Added return type for delete
+  deleteCategory(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 }

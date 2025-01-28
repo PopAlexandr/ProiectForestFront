@@ -1,6 +1,4 @@
 // src/app/models/models.ts
-import {CategoryComponent} from '../components/category/category.component';
-import {SupplierService} from '../services/supplier.service';
 export class Product {
   productId: number;
   title: string;
@@ -54,10 +52,10 @@ export class Supplier {
 
 
 export class StockTransaction {
-  transactionId: number; // Unique identifier
-  quantity: number; // Positive for additions, negative for removals
-  transactionType: string; // Transaction type: ADD, REMOVE, DELETE, etc.
-  transactionDate: string; // Date of the transaction
+  transactionId: number;
+  quantity: number;
+  transactionType: string;
+  transactionDate: string;
   productTitle?: string;
 
   constructor(

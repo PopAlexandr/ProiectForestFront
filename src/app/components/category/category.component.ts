@@ -8,9 +8,8 @@ import { Category } from '../../models/models';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit {
-  categories: Category[] = []; // Define categories with a proper type
+  categories: Category[] = [];
 
-  // Use private to automatically create and assign categoryService
   constructor(private categoryService: CategoryService) {}
 
   ngOnInit(): void {
@@ -24,17 +23,6 @@ export class CategoryComponent implements OnInit {
       },
       (error) => {
         console.error('Error fetching categories:', error);
-      }
-    );
-  }
-
-  addCategory(category: Category): void {
-    this.categoryService.createCategory(category).subscribe(
-      (response: Category) => {
-        this.categories.push(response);
-      },
-      (error) => {
-        console.error('Error adding category:', error);
       }
     );
   }

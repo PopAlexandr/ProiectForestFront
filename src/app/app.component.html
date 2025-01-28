@@ -1,6 +1,5 @@
 <div class="container">
   <h1>Product Management</h1>
-  <!-- Category Filter Dropdown -->
   <div class="form-group">
     <label for="categoryFilter">Filter by Category:</label>
     <select id="categoryFilter" class="form-control" [(ngModel)]="selectedCategoryId" (change)="filterByCategory()">
@@ -9,15 +8,9 @@
     </select>
   </div>
   <h2>Product List</h2>
-  <div>
-    <p>Debug - Number of products: {{products.length}}</p>
-    <p>Selected Category ID (for Debug): {{ selectedCategoryId }}</p>
-  </div>
 
-  <!-- Top-Selling Products Report Button -->
   <button class="btn btn-success" (click)="openTopSellingModal()">View Top-Selling Products</button>
 
-  <!-- Top-Selling Products Modal -->
   <div class="modal" tabindex="-1" role="dialog" id="topSellingModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -50,10 +43,8 @@
     </div>
   </div>
 
-  <!-- Transaction Summary Button -->
   <button class="btn btn-secondary" (click)="openTransactionSummaryModal()">View Transaction Summary</button>
 
-  <!-- Transaction Summary Modal -->
   <div class="modal" tabindex="-1" role="dialog" id="transactionSummaryModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -89,10 +80,8 @@
 
 
 
-  <!-- Inventory Movement Button -->
   <button class="btn btn-info" (click)="openInventoryModal()">View Inventory History</button>
-
-  <!-- Inventory Movement Modal -->
+  <button class="btn btn-warning" (click)="openLowStockModal()">View Low Stock Report</button>
   <div class="modal" tabindex="-1" role="dialog" id="inventoryModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -268,10 +257,8 @@
 
     <button type="submit" class="btn btn-primary">Add Product</button>
   </form>
-  <!-- Low Stock Report Button -->
-  <button class="btn btn-warning" (click)="openLowStockModal()">View Low Stock Report</button>
 
-  <!-- Low Stock Report Modal -->
+
   <div class="modal" tabindex="-1" role="dialog" id="lowStockModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -309,7 +296,6 @@
       </div>
     </div>
   </div>
-  <!-- Supplier Info Modal -->
   <div class="modal supplier-modal" tabindex="-1" role="dialog" id="supplierModal">
     <div class="modal-dialog" role="document">
       <div class="modal-content">

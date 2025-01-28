@@ -1,4 +1,4 @@
-import {Component, NgIterable, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Product} from "./models/models";
 import {Category} from "./models/models";
 import {StockTransaction} from "./models/models";
@@ -7,7 +7,6 @@ import {Supplier} from "./models/models";
 import {ProductService} from "./services/product.service";
 import {CategoryService} from "./services/category.service";
 import {StockTransactionService} from "./services/stockTransaction.service";
-import {SupplierService} from "./services/supplier.service";
 import {HttpErrorResponse} from '@angular/common/http';
 import {NgForm} from '@angular/forms';
 @Component({
@@ -25,18 +24,16 @@ export class AppComponent implements OnInit {
     supplierName: '',
     author: ''
   };
-  public products: Product[] = []; // Specify type for products
-  public filteredProducts: Product[] = []; // Array for filtered products
-  public categories: Category[] = []; // Initialize categories as an empty array
+  public products: Product[] = [];
+  public filteredProducts: Product[] = [];
+  public categories: Category[] = [];
   public stockTransactions: StockTransaction[] = [];
-  public suppliers: Supplier[]=[];
   public selectedProduct: Product=new Product();
   public lowStockProducts: Product[] = [];
-  private stockThreshold: number = 20; // Default threshold for low stock
-  public deleteProduct: Product = new Product();
+  private stockThreshold: number = 20; //modifica pe cat vrei sa iti da warn de lowstock
   public selectedCategoryId: number| null = null;
   public topSellingProducts: { totalSales: number; title: string }[] = [];
-  private topLimit: number = 3; // Default limit for top-selling products
+  private topLimit: number = 3; // cate top produse vrei vedea
   public transactionSummary: { [key: string]: number } | null = null;
   public searchQuery: string = '';
   public selectedSupplier: { name?: string; contactEmail?: string; phoneNumber?: string } | null = null;
@@ -111,7 +108,7 @@ export class AppComponent implements OnInit {
             this.products[index] = response;
           }
 
-          this.closeEditModal(); // Close modal after update
+          this.closeEditModal();
         },
         (error) => {
           console.error('Error updating product:', error);
@@ -121,46 +118,6 @@ export class AppComponent implements OnInit {
       console.error('No product selected for update.');
     }
   }
-
-  public OnDeleteProduct(productId:number): void {
-    this.productService.deleteProduct(productId).subscribe(
-      (response:void) => {
-        console.log(response);
-        this.fetchProducts();
-      },
-      (error:HttpErrorResponse) => {
-        alert(error.message);
-      }
-    )
-  }
-  public onOpenModal(product:Product,mode:string):void {
-    const container=document.getElementById('main-container');
-    if (!container) {
-      console.error('Container element not found');
-      return;
-    }
-    const button=document.createElement('button');
-    button.type='button';
-    button.style.display= 'none';
-    button.setAttribute('data-toggle','modal');
-    if (mode === 'add') {
-      button.setAttribute('data-target','#add-product-modal');
-    }
-    if(mode==='edit'){
-      this.selectedProduct=product;
-      button.setAttribute('data-target','#update-product-modal');
-    }
-    if(mode==='delete'){
-      this.deleteProduct=product;
-      button.setAttribute('data-target','#delete-product-modal');
-    }
-    container.appendChild(button);
-    button.click();
-  }
-
-
-
-
   fetchCategories(): void {
 
     this.categoryService.getAllCategories().subscribe(

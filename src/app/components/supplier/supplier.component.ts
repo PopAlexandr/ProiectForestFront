@@ -8,9 +8,9 @@ import { Supplier } from '../../models/models'; // Import the Supplier model
   styleUrls: ['./supplier.component.css']
 })
 export class SupplierComponent implements OnInit {
-  suppliers: Supplier[] = []; // Specify the type for suppliers
+  suppliers: Supplier[] = [];
 
-  constructor(private supplierService: SupplierService) {} // Use private access modifier for dependency injection
+  constructor(private supplierService: SupplierService) {}
 
   ngOnInit(): void {
     this.getSuppliers();
@@ -18,22 +18,11 @@ export class SupplierComponent implements OnInit {
 
   getSuppliers(): void {
     this.supplierService.getAllSuppliers().subscribe(
-      (data: Supplier[]) => { // Specify the type for data
+      (data: Supplier[]) => {
         this.suppliers = data;
       },
       (error) => {
         console.error('Error fetching suppliers:', error);
-      }
-    );
-  }
-
-  addSupplier(supplier: Supplier): void { // Specify the type for supplier
-    this.supplierService.createSupplier(supplier).subscribe(
-      (response: Supplier) => { // Specify the type for response
-        this.suppliers.push(response);
-      },
-      (error) => {
-        console.error('Error adding supplier:', error);
       }
     );
   }

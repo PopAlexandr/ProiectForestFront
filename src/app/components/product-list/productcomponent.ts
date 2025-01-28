@@ -9,7 +9,7 @@ import {Product} from '../../models/models';
   styleUrls: ['./productcomponent.css']
 })
 export class ProductComponent implements OnInit {
-  products:Product[] = []; // Initialize products as an empty array
+  products:Product[] = [];
 
 
   constructor(private productService:ProductService) {
@@ -26,27 +26,5 @@ export class ProductComponent implements OnInit {
 
 
     console.log(this.products);
-  }
-
-  getProducts() {
-    this.productService.getAllProducts().subscribe(
-      (data) => {
-        this.products = data;
-      },
-      (error) => {
-        console.error('Error fetching products:', error);
-      }
-    );
-  }
-
-  addProduct(product: Product) {
-    this.productService.createProduct(product).subscribe(
-      (response) => {
-        this.products.push(response);
-      },
-      (error) => {
-        console.error('Error adding product:', error);
-      }
-    );
   }
 }

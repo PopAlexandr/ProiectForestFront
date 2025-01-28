@@ -8,33 +8,11 @@ import { StockTransaction } from '../../models/models'; // Import your StockTran
   styleUrls: ['./stocktransaction.component.css']
 })
 export class StockTransactionComponent implements OnInit {
-  stockTransactions: StockTransaction[] = []; // Initialize stockTransactions as an empty array with type
+  stockTransactions: StockTransaction[] = [];
 
   constructor(private stockTransactionService: StockTransactionService) { this.stockTransactionService=stockTransactionService;}
 
   ngOnInit(): void {
     this.stockTransactionService.getAllStockTransactions().subscribe((data: any) => {this.stockTransactions = data; });
-  }
-
-  getStockTransactions(): void {
-    this.stockTransactionService.getAllStockTransactions().subscribe(
-      (data: StockTransaction[]) => { // Specify the type of data received
-        this.stockTransactions = data;
-      },
-      (error: any) => { // Specify the type of error
-        console.error('Error fetching stock transactions:', error);
-      }
-    );
-  }
-
-  addStockTransaction(stockTransaction: StockTransaction): void { // Specify the type for the parameter
-    this.stockTransactionService.createStockTransaction(stockTransaction).subscribe(
-      (response: StockTransaction) => { // Specify the type of response
-        this.stockTransactions.push(response);
-      },
-      (error: any) => { // Specify the type of error
-        console.error('Error adding stock transaction:', error);
-      }
-    );
   }
 }
