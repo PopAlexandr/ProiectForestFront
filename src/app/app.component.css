@@ -13,7 +13,7 @@
 .form-group {
   margin-bottom: 1rem;
 }
-
+.modal{display:none}
 .form-control {
   display: block;
   width: 100%;
@@ -75,4 +75,36 @@
   margin: 10% auto;
   width: 80%;
   padding: 20px;
+}
+/* Center the modal in the middle of the screen */
+.modal.supplier-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050; /* Ensure it appears above other elements */
+  background: rgba(0, 0, 0, 0.8); /* Optional: Add a background overlay */
+  width: 100%;
+  height: 100%;
+}
+
+/* Center the modal dialog box */
+.modal-dialog {
+  position: relative;
+  margin: auto;
+  width: 400px;
+  max-width: 90%;
+}
+body.modal-open {
+  overflow: hidden;
+}
+#inventoryModal .modal-dialog {
+  width: 80%; /* Adjust this percentage as needed */
+  max-width: 1200px; /* Optional: Set a max width */
+}
+
+#inventoryModal .modal-content {
+  padding: 20px;
+  border-radius: 8px;
 }

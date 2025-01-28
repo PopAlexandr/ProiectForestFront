@@ -154,7 +154,7 @@
       <th>Stock Quantity</th>
       <th>Category</th>
       <th>Supplier</th>
-      <th>Actions</th> <!-- New column for actions -->
+      <th>Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -169,6 +169,7 @@
       <td>{{product.supplier?.name}}</td>
       <td>
         <button class="btn btn-danger btn-sm" (click)="confirmDeleteProduct(product.productId)">Delete</button>
+        <button class="btn btn-info btn-sm" (click)="openSupplierModal(product.supplier)">View Supplier Info</button>
       </td>
     </tr>
     </tbody>
@@ -308,5 +309,29 @@
       </div>
     </div>
   </div>
+  <!-- Supplier Info Modal -->
+  <div class="modal supplier-modal" tabindex="-1" role="dialog" id="supplierModal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Supplier Information</h5>
+          <button type="button" class="close" (click)="closeSupplierModal()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Name:</strong> {{ selectedSupplier?.name || 'No supplier' }}</p>
+          <p><strong>Email:</strong> {{ selectedSupplier?.contactEmail || 'No email' }}</p>
+          <p><strong>Phone:</strong> {{ selectedSupplier?.phoneNumber || 'No phone' }}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeSupplierModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
 
 </div>

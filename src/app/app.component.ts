@@ -32,13 +32,14 @@ export class AppComponent implements OnInit {
   public suppliers: Supplier[]=[];
   public selectedProduct: Product=new Product();
   public lowStockProducts: Product[] = [];
-  private stockThreshold: number = 10; // Default threshold for low stock
+  private stockThreshold: number = 20; // Default threshold for low stock
   public deleteProduct: Product = new Product();
   public selectedCategoryId: number| null = null;
   public topSellingProducts: { totalSales: number; title: string }[] = [];
-  private topLimit: number = 2; // Default limit for top-selling products
+  private topLimit: number = 3; // Default limit for top-selling products
   public transactionSummary: { [key: string]: number } | null = null;
   public searchQuery: string = '';
+  public selectedSupplier: { name?: string; contactEmail?: string; phoneNumber?: string } | null = null;
   public newProduct: Product = new Product();
   public title: string='proiectforestfront';
 
@@ -330,8 +331,21 @@ export class AppComponent implements OnInit {
       );
     }
 
+
     this.filteredProducts = filtered; // Update the filtered list
     console.log('Filtered Products:', this.filteredProducts); // Debug log
   }
+  openSupplierModal(supplier: { name?: string; contactEmail?: string; phoneNumber?: string }): void {
+    this.selectedSupplier = supplier;
+    const modal = document.getElementById('supplierModal') as HTMLElement;
+    modal.style.display = 'block';
+  }
+
+  closeSupplierModal(): void {
+    this.selectedSupplier = null;
+    const modal = document.getElementById('supplierModal') as HTMLElement;
+    modal.style.display = 'none';
+  }
+
 
 }
